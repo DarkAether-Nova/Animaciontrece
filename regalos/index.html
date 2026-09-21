@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background: transparent !important;
+      overflow: hidden;
+      font-family: 'Arial Black', Impact, sans-serif;
+      height: 100vh;
+      display: flex;
+      align-items: center;
+    }
+
+    .ticker-container {
+      width: 100vw;
+      overflow: hidden;
+      white-space: nowrap;
+      background: transparent;
+      padding: 10px 0;
+    }
+
+    .ticker-track {
+      display: inline-flex;
+      gap: 50px;
+      animation: scroll 20s linear infinite;
+      will-change: transform;
+    }
+
+    .item {
+      display: inline-flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .item img {
+      width: 110px;
+      height: 110px;
+      object-fit: contain;
+      filter: drop-shadow(0px 4px 8px rgba(0, 0, 0, 0.8));
+    }
+
+    .item span {
+      margin-top: 6px;
+      color: #ffffff;
+      font-size: 16px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      text-shadow: 
+        2px 2px 0 #000,
+       -2px -2px 0 #000,
+        2px -2px 0 #000,
+       -2px 2px 0 #000,
+        0px 2px 4px rgba(0,0,0,0.9);
+      text-align: center;
+    }
+
+    @keyframes scroll {
+      0% {
+        transform: translateX(0);
+      }
+      100% {
+        transform: translateX(-50%);
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="ticker-container">
+    <div class="ticker-track" id="track"></div>
+  </div>
+
+  <script>
+    // =========================================================
+    // AGREGA O EDITA TUS PNGS Y SUS NOMBRES AQUÍ DE FORMA FÁCIL:
+    // =========================================================
+    const regalos = [
+      { archivo: "Unicornio.png", nombre: "UNICORNIO" },
+      { archivo: "Visitando el espacio.png", nombre: "EN EL ESPACIO" },
+      { archivo: "Voto.png", nombre: "VOTO" },
+      { archivo: "Wanda la bruja.png", nombre: "WANDA BRUJA" },
+      { archivo: "Zeus.png", nombre: "ZEUS" }
+      // Para agregar más, solo pon una coma y añade otra línea:
+      // , { archivo: "OtroIcono.png", nombre: "TEXTO" }
+    ];
+
+    const track = document.getElementById('track');
+
+    function cargarRegalos() {
+      // Duplicamos el arreglo 4 veces para asegurarnos de que llene toda la pantalla sin espacios en blanco
+      const listaCompleta = [...regalos, ...regalos, ...regalos, ...regalos];
+
+      listaCompleta.forEach(item => {
+        const div = document.createElement('div');
+        div.className = 'item';
+
+        // Quitamos la extensión .png del nombre alt
+        const nombreLimpio = item.archivo.replace('.png', '');
+
+        div.innerHTML = `
+          <img src="${item.archivo}" alt="${nombreLimpio}">
+          <span>${item.nombre}</span>
+        `;
+        track.appendChild(div);
+      });
+    }
+
+    cargarRegalos();
+  </script>
+
+</body>
+</html>
