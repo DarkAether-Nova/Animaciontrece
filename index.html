@@ -41,7 +41,7 @@
       transform: scale(1);
     }
 
-    /* Clase para la animación de desvanecimiento al cambiar */
+    /* Transición suave al cambiar de lote */
     .grid-4.oculto {
       opacity: 0;
       transform: scale(0.95);
@@ -130,17 +130,28 @@
 
     const contenedor = document.getElementById('contenedor');
     let indiceActual = 0;
-    const tiempoVisibilidad = 6000; // 6000 ms = 6 segundos cada grupo de 4
+    const tiempoVisibilidad = 6000; // 6 segundos por grupo
 
     function mostrarSiguienteGrupo() {
-      // 1. Ocultar con animación fade-out
+      // 1. Efecto de desvanecimiento
       contenedor.classList.add('oculto');
 
       setTimeout(() => {
-        // 2. Extraer los siguientes 4 objetos (o el remanente si no llega a 4)
+        // 2. Tomar los elementos del lote actual
         let grupo = regalos.slice(indiceActual, indiceActual + 4);
 
-        // Renderizar el HTML
+        // Si faltan elementos para llegar a 4 (como pasa al final con el #17)
+        if (grupo.length < 4) {
+          const faltantes = 4 - grupo.length;
+          // Filtrar regalos que no estén ya en el grupo actual
+          const disponibles = regalos.filter(r => !grupo.includes(r));
+          
+          // Mezclar aleatoriamente y seleccionar los que faltan
+          const aleatorios = disponibles.sort(() => 0.5 - Math.random()).slice(0, faltantes);
+          grupo = [...grupo, ...aleatorios];
+        }
+
+        // Renderizar en el DOM
         contenedor.innerHTML = grupo.map(item => `
           <div class="item">
             <span class="titulo">${item.nombre}</span>
@@ -149,21 +160,21 @@
           </div>
         `).join('');
 
-        // 3. Mostrar con animación fade-in
+        // 3. Mostrar el nuevo bloque con animación
         contenedor.classList.remove('oculto');
 
-        // Avanzar el índice en 4 posiciones. Si llega al final, reinicia a 0
+        // Avanzar 4 posiciones o reiniciar al ciclo inicial
         indiceActual += 4;
         if (indiceActual >= regalos.length) {
           indiceActual = 0;
         }
-      }, 500); // 500ms coincide con el tiempo del CSS
+      }, 500);
     }
 
-    // Iniciar mostrando el primer grupo al cargar
+    // Ejecutar al iniciar
     mostrarSiguienteGrupo();
 
-    // Rotar automáticamente cada X segundos
+    // Ciclo automático
     setInterval(mostrarSiguienteGrupo, tiempoVisibilidad);
   </script>
 
