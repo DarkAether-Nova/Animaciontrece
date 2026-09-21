@@ -30,16 +30,20 @@
       padding: 12px 0;
     }
 
+    /* Track animado con CSS puro para cero tirones en TikTok LIVE Studio */
     .ticker-track {
       display: inline-flex;
+      width: max-content;
+      animation: marquee 35s linear infinite;
       will-change: transform;
-      transform: translate3d(0, 0, 0);
+      backface-visibility: hidden;
+      perspective: 1000px;
     }
 
     .block {
       display: inline-flex;
-      gap: 60px; /* Separación amplia entre elementos */
-      padding-right: 60px;
+      gap: 65px;
+      padding-right: 65px; /* Mismo espacio para evitar tirones al reiniciar el bucle */
     }
 
     .item {
@@ -50,7 +54,7 @@
       flex-shrink: 0;
     }
 
-    /* Título (Nombre) - Arriba */
+    /* Nombre del regalo (ARRIBA) */
     .item .titulo {
       margin-bottom: 6px;
       color: #ffffff;
@@ -67,7 +71,7 @@
       text-align: center;
     }
 
-    /* Icono PNG - Centro */
+    /* Icono PNG (CENTRO) */
     .item img {
       width: 110px;
       height: 110px;
@@ -75,12 +79,12 @@
       filter: drop-shadow(0px 6px 12px rgba(0, 0, 0, 0.85));
     }
 
-    /* Subtítulo (Acción/Descripción) - Abajo */
+    /* Descripción/Efecto (ABAJO - Amarillo Grande) */
     .item .subtitulo {
       margin-top: 6px;
-      color: #ffea00; /* Amarillo brillante de alto contraste */
+      color: #ffea00;
       font-weight: 900;
-      font-size: 16px; /* Tamaño aumentado para mayor legibilidad */
+      font-size: 16px;
       text-transform: uppercase;
       letter-spacing: 0.8px;
       text-shadow: 
@@ -90,6 +94,16 @@
        -2px 2px 0 #000,
         0px 4px 8px rgba(0, 0, 0, 0.95);
       text-align: center;
+    }
+
+    /* Animación de desplazamiento infinito exacto sin saltos */
+    @keyframes marquee {
+      0% {
+        transform: translate3d(0, 0, 0);
+      }
+      100% {
+        transform: translate3d(-50%, 0, 0);
+      }
     }
   </style>
 </head>
@@ -103,6 +117,7 @@
   </div>
 
   <script>
+    // LISTA DE TUS 17 ELEMENTOS
     const regalos = [
       { archivo: "regalos/Unicornio.png", nombre: "UNICORNIO", descripcion: "x3 Zombis" },
       { archivo: "regalos/Visitando el espacio.png", nombre: "ESPACIO", descripcion: "Gravedad Zero" },
@@ -125,7 +140,6 @@
 
     const block1 = document.getElementById('block1');
     const block2 = document.getElementById('block2');
-    const track = document.getElementById('track');
 
     function crearHTML(lista) {
       return lista.map(item => `
@@ -137,30 +151,10 @@
       `).join('');
     }
 
-    const contenidoBase = crearHTML(regalos);
-
-    block1.innerHTML = contenidoBase;
-    block2.innerHTML = contenidoBase;
-
-    let posX = 0;
-    const velocidad = 0.7; // Velocidad reducida para un desplazamiento más lento y fluido
-    let anchoBloque = 0;
-
-    function animar() {
-      posX -= velocidad;
-
-      if (Math.abs(posX) >= anchoBloque) {
-        posX = 0;
-      }
-
-      track.style.transform = `translate3d(${posX}px, 0, 0)`;
-      requestAnimationFrame(animar);
-    }
-
-    window.addEventListener('load', () => {
-      anchoBloque = block1.offsetWidth;
-      requestAnimationFrame(animar);
-    });
+    // Inyectamos el HTML en los dos bloques
+    const htmlContenido = crearHTML(regalos);
+    block1.innerHTML = htmlContenido;
+    block2.innerHTML = htmlContenido;
   </script>
 
 </body>
