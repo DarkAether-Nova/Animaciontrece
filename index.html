@@ -2,6 +2,10 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@800;900&display=swap" rel="stylesheet">
+
   <style>
     * {
       box-sizing: border-box;
@@ -12,7 +16,7 @@
     body {
       background: transparent !important;
       overflow: hidden;
-      font-family: 'Arial Black', Impact, sans-serif;
+      font-family: 'Montserrat', sans-serif;
       height: 100vh;
       display: flex;
       align-items: center;
@@ -23,14 +27,19 @@
       overflow: hidden;
       white-space: nowrap;
       background: transparent;
-      padding: 10px 0;
+      padding: 12px 0;
     }
 
     .ticker-track {
       display: inline-flex;
-      gap: 50px;
-      animation: scroll 22s linear infinite;
       will-change: transform;
+      transform: translate3d(0, 0, 0);
+    }
+
+    .block {
+      display: inline-flex;
+      gap: 60px; /* Separación amplia entre elementos */
+      padding-right: 60px;
     }
 
     .item {
@@ -41,73 +50,117 @@
       flex-shrink: 0;
     }
 
-    .item img {
-      width: 110px;
-      height: 110px;
-      object-fit: contain;
-      filter: drop-shadow(0px 4px 8px rgba(0, 0, 0, 0.8));
-    }
-
-    .item span {
-      margin-top: 6px;
+    /* Título (Nombre) - Arriba */
+    .item .titulo {
+      margin-bottom: 6px;
       color: #ffffff;
+      font-weight: 900;
       font-size: 16px;
       text-transform: uppercase;
       letter-spacing: 1px;
       text-shadow: 
         2px 2px 0 #000,
-       -2px -2px 0 #000,
-        2px -2px 0 #000,
-       -2px 2px 0 #000,
-        0px 2px 4px rgba(0,0,0,0.9);
+       -1px -1px 0 #000,
+        1px -1px 0 #000,
+       -1px 1px 0 #000,
+        0px 4px 8px rgba(0, 0, 0, 0.95);
       text-align: center;
     }
 
-    @keyframes scroll {
-      0% {
-        transform: translateX(0);
-      }
-      100% {
-        transform: translateX(-50%);
-      }
+    /* Icono PNG - Centro */
+    .item img {
+      width: 110px;
+      height: 110px;
+      object-fit: contain;
+      filter: drop-shadow(0px 6px 12px rgba(0, 0, 0, 0.85));
+    }
+
+    /* Subtítulo (Acción/Descripción) - Abajo */
+    .item .subtitulo {
+      margin-top: 6px;
+      color: #ffea00; /* Amarillo brillante de alto contraste */
+      font-weight: 900;
+      font-size: 16px; /* Tamaño aumentado para mayor legibilidad */
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      text-shadow: 
+        2px 2px 0 #000,
+       -2px -2px 0 #000,
+        2px -2px 0 #000,
+       -2px 2px 0 #000,
+        0px 4px 8px rgba(0, 0, 0, 0.95);
+      text-align: center;
     }
   </style>
 </head>
 <body>
 
   <div class="ticker-container">
-    <div class="ticker-track" id="track"></div>
+    <div class="ticker-track" id="track">
+      <div class="block" id="block1"></div>
+      <div class="block" id="block2"></div>
+    </div>
   </div>
 
   <script>
-    // Apuntamos a los archivos dentro de la carpeta "regalos/"
     const regalos = [
-      { archivo: "regalos/Unicornio.png", nombre: "UNICORNIO" },
-      { archivo: "regalos/Visitando el espacio.png", nombre: "EN EL ESPACIO" },
-      { archivo: "regalos/Voto.png", nombre: "VOTO" },
-      { archivo: "regalos/Wanda la bruja.png", nombre: "WANDA BRUJA" },
-      { archivo: "regalos/Zeus.png", nombre: "ZEUS" }
+      { archivo: "regalos/Unicornio.png", nombre: "UNICORNIO", descripcion: "x3 Zombis" },
+      { archivo: "regalos/Visitando el espacio.png", nombre: "ESPACIO", descripcion: "Gravedad Zero" },
+      { archivo: "regalos/Voto.png", nombre: "VOTO", descripcion: "Elegir Mapa" },
+      { archivo: "regalos/Wanda la bruja.png", nombre: "WANDA BRUJA", descripcion: "Mala Suerte" },
+      { archivo: "regalos/Zeus.png", nombre: "ZEUS", descripcion: "Rayo Mortal" },
+      { archivo: "regalos/6.png", nombre: "OBJETO 6", descripcion: "Efecto 6" },
+      { archivo: "regalos/7.png", nombre: "OBJETO 7", descripcion: "Efecto 7" },
+      { archivo: "regalos/8.png", nombre: "OBJETO 8", descripcion: "Efecto 8" },
+      { archivo: "regalos/9.png", nombre: "OBJETO 9", descripcion: "Efecto 9" },
+      { archivo: "regalos/10.png", nombre: "OBJETO 10", descripcion: "Efecto 10" },
+      { archivo: "regalos/11.png", nombre: "OBJETO 11", descripcion: "Efecto 11" },
+      { archivo: "regalos/12.png", nombre: "OBJETO 12", descripcion: "Efecto 12" },
+      { archivo: "regalos/13.png", nombre: "OBJETO 13", descripcion: "Efecto 13" },
+      { archivo: "regalos/14.png", nombre: "OBJETO 14", descripcion: "Efecto 14" },
+      { archivo: "regalos/15.png", nombre: "OBJETO 15", descripcion: "Efecto 15" },
+      { archivo: "regalos/16.png", nombre: "OBJETO 16", descripcion: "Efecto 16" },
+      { archivo: "regalos/17.png", nombre: "OBJETO 17", descripcion: "Efecto 17" }
     ];
 
+    const block1 = document.getElementById('block1');
+    const block2 = document.getElementById('block2');
     const track = document.getElementById('track');
 
-    function cargarRegalos() {
-      // Duplicamos el arreglo 4 veces para garantizar la continuidad horizontal completa
-      const listaCompleta = [...regalos, ...regalos, ...regalos, ...regalos];
-
-      listaCompleta.forEach(item => {
-        const div = document.createElement('div');
-        div.className = 'item';
-
-        div.innerHTML = `
+    function crearHTML(lista) {
+      return lista.map(item => `
+        <div class="item">
+          <span class="titulo">${item.nombre}</span>
           <img src="${encodeURI(item.archivo)}" alt="${item.nombre}">
-          <span>${item.nombre}</span>
-        `;
-        track.appendChild(div);
-      });
+          <span class="subtitulo">${item.descripcion}</span>
+        </div>
+      `).join('');
     }
 
-    cargarRegalos();
+    const contenidoBase = crearHTML(regalos);
+
+    block1.innerHTML = contenidoBase;
+    block2.innerHTML = contenidoBase;
+
+    let posX = 0;
+    const velocidad = 0.7; // Velocidad reducida para un desplazamiento más lento y fluido
+    let anchoBloque = 0;
+
+    function animar() {
+      posX -= velocidad;
+
+      if (Math.abs(posX) >= anchoBloque) {
+        posX = 0;
+      }
+
+      track.style.transform = `translate3d(${posX}px, 0, 0)`;
+      requestAnimationFrame(animar);
+    }
+
+    window.addEventListener('load', () => {
+      anchoBloque = block1.offsetWidth;
+      requestAnimationFrame(animar);
+    });
   </script>
 
 </body>
