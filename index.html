@@ -29,7 +29,7 @@
     .ticker-track {
       display: inline-flex;
       gap: 50px;
-      animation: scroll 20s linear infinite;
+      animation: scroll 22s linear infinite;
       will-change: transform;
     }
 
@@ -80,34 +80,27 @@
   </div>
 
   <script>
-    // =========================================================
-    // AGREGA O EDITA TUS PNGS Y SUS NOMBRES AQUÍ DE FORMA FÁCIL:
-    // =========================================================
+    // Apuntamos a los archivos dentro de la carpeta "regalos/"
     const regalos = [
-      { archivo: "Unicornio.png", nombre: "UNICORNIO" },
-      { archivo: "Visitando el espacio.png", nombre: "EN EL ESPACIO" },
-      { archivo: "Voto.png", nombre: "VOTO" },
-      { archivo: "Wanda la bruja.png", nombre: "WANDA BRUJA" },
-      { archivo: "Zeus.png", nombre: "ZEUS" }
-      // Para agregar más, solo pon una coma y añade otra línea:
-      // , { archivo: "OtroIcono.png", nombre: "TEXTO" }
+      { archivo: "regalos/Unicornio.png", nombre: "UNICORNIO" },
+      { archivo: "regalos/Visitando el espacio.png", nombre: "EN EL ESPACIO" },
+      { archivo: "regalos/Voto.png", nombre: "VOTO" },
+      { archivo: "regalos/Wanda la bruja.png", nombre: "WANDA BRUJA" },
+      { archivo: "regalos/Zeus.png", nombre: "ZEUS" }
     ];
 
     const track = document.getElementById('track');
 
     function cargarRegalos() {
-      // Duplicamos el arreglo 4 veces para asegurarnos de que llene toda la pantalla sin espacios en blanco
+      // Duplicamos el arreglo 4 veces para garantizar la continuidad horizontal completa
       const listaCompleta = [...regalos, ...regalos, ...regalos, ...regalos];
 
       listaCompleta.forEach(item => {
         const div = document.createElement('div');
         div.className = 'item';
 
-        // Quitamos la extensión .png del nombre alt
-        const nombreLimpio = item.archivo.replace('.png', '');
-
         div.innerHTML = `
-          <img src="${item.archivo}" alt="${nombreLimpio}">
+          <img src="${encodeURI(item.archivo)}" alt="${item.nombre}">
           <span>${item.nombre}</span>
         `;
         track.appendChild(div);
