@@ -30,18 +30,17 @@
       align-items: center;
     }
 
-    /* Grid fijo para mostrar exactamente 4 elementos alineados */
+    /* Grid fijo para los 4 elementos */
     .grid-4 {
       display: flex;
-      gap: 60px;
+      gap: 50px;
       justify-content: center;
-      align-items: center;
+      align-items: flex-start;
       transition: opacity 0.5s ease-in-out, transform 0.5s ease-in-out;
       opacity: 1;
       transform: scale(1);
     }
 
-    /* Transición suave al cambiar de lote */
     .grid-4.oculto {
       opacity: 0;
       transform: scale(0.95);
@@ -51,18 +50,23 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-      justify-content: center;
-      width: 160px;
+      justify-content: flex-start;
+      width: 155px;
     }
 
-    /* Título (Nombre del regalo) - Arriba */
+    /* Título (Nombre): Alineado arriba (flex-start) */
     .item .titulo {
-      margin-bottom: 8px;
+      height: 38px;
+      display: flex;
+      align-items: flex-start; /* Alinea los textos de 1 renglón arriba con la 1ª línea */
+      justify-content: center;
+      margin-bottom: 6px;
       color: #ffffff;
       font-weight: 900;
-      font-size: 16px;
+      font-size: 15px;
       text-transform: uppercase;
-      letter-spacing: 1px;
+      letter-spacing: 0.8px;
+      line-height: 1.1;
       text-shadow: 
         2px 2px 0 #000,
        -1px -1px 0 #000,
@@ -70,25 +74,30 @@
        -1px 1px 0 #000,
         0px 4px 8px rgba(0, 0, 0, 0.95);
       text-align: center;
-      white-space: nowrap;
+      white-space: normal;
     }
 
-    /* Icono PNG - Centro */
+    /* Icono PNG: Tamaño y posición fijos */
     .item img {
-      width: 120px;
-      height: 120px;
+      width: 110px;
+      height: 110px;
       object-fit: contain;
       filter: drop-shadow(0px 8px 14px rgba(0, 0, 0, 0.85));
     }
 
-    /* Subtítulo (Descripción/Acción) - Abajo en amarillo */
+    /* Subtítulo (Descripción): Alineado arriba (flex-start) */
     .item .subtitulo {
-      margin-top: 8px;
+      height: 38px;
+      display: flex;
+      align-items: flex-start; /* Alinea los textos de 1 renglón arriba con la 1ª línea */
+      justify-content: center;
+      margin-top: 6px;
       color: #ffea00;
       font-weight: 900;
-      font-size: 16px;
+      font-size: 15px;
       text-transform: uppercase;
-      letter-spacing: 0.8px;
+      letter-spacing: 0.6px;
+      line-height: 1.1;
       text-shadow: 
         2px 2px 0 #000,
        -2px -2px 0 #000,
@@ -96,7 +105,7 @@
        -2px 2px 0 #000,
         0px 4px 8px rgba(0, 0, 0, 0.95);
       text-align: center;
-      white-space: nowrap;
+      white-space: normal;
     }
   </style>
 </head>
@@ -107,63 +116,54 @@
   </div>
 
   <script>
-    // LISTA DE TUS 17 ELEMENTOS
+    // LISTA DE 17 ELEMENTOS CON SALTO DE LÍNEA (<br>)
     const regalos = [
-      { archivo: "regalos/Unicornio.png", nombre: "UNICORNIO", descripcion: "x3 Zombis" },
-      { archivo: "regalos/Visitando el espacio.png", nombre: "ESPACIO", descripcion: "Gravedad Zero" },
-      { archivo: "regalos/Voto.png", nombre: "VOTO", descripcion: "Elegir Mapa" },
-      { archivo: "regalos/Wanda la bruja.png", nombre: "WANDA BRUJA", descripcion: "Mala Suerte" },
-      { archivo: "regalos/Zeus.png", nombre: "ZEUS", descripcion: "Rayo Mortal" },
-      { archivo: "regalos/6.png", nombre: "OBJETO 6", descripcion: "Efecto 6" },
-      { archivo: "regalos/7.png", nombre: "OBJETO 7", descripcion: "Efecto 7" },
-      { archivo: "regalos/8.png", nombre: "OBJETO 8", descripcion: "Efecto 8" },
-      { archivo: "regalos/9.png", nombre: "OBJETO 9", descripcion: "Efecto 9" },
-      { archivo: "regalos/10.png", nombre: "OBJETO 10", descripcion: "Efecto 10" },
-      { archivo: "regalos/11.png", nombre: "OBJETO 11", descripcion: "Efecto 11" },
-      { archivo: "regalos/12.png", nombre: "OBJETO 12", descripcion: "Efecto 12" },
-      { archivo: "regalos/13.png", nombre: "OBJETO 13", descripcion: "Efecto 13" },
-      { archivo: "regalos/14.png", nombre: "OBJETO 14", descripcion: "Efecto 14" },
-      { archivo: "regalos/15.png", nombre: "OBJETO 15", descripcion: "Efecto 15" },
-      { archivo: "regalos/16.png", nombre: "OBJETO 16", descripcion: "Efecto 16" },
-      { archivo: "regalos/17.png", nombre: "OBJETO 17", descripcion: "Efecto 17" }
+      { archivo: "regalos/rosa.png", nombre: "Rosa", descripcion: "x5<br>Zombis" },
+      { archivo: "regalos/duit raya.png", nombre: "paquetes<br>verdes", descripcion: "luz roja<br>luz verde" },
+      { archivo: "regalos/Corazon Coreano.png", nombre: "corazón<br>coreano", descripcion: "Perk<br>Random" },
+      { archivo: "regalos/Saludo Personalizado.png", nombre: "Saludo<br>perso.", descripcion: "Quitar<br>un Perk" },
+      { archivo: "regalos/Pulsera de Equipo.png", nombre: "Pulsera de<br>Equipo", descripcion: "+1000<br>puntos" },
+      { archivo: "regalos/Globos.png", nombre: "Globos", descripcion: "Quitar<br>puntos" },
+      { archivo: "regalos/Maracas.png", nombre: "Maracas", descripcion: "Doble<br>puntuación" },
+      { archivo: "regalos/Maiz.png", nombre: "Maíz", descripcion: "Liquidación" },
+      { archivo: "regalos/Rosa Blanca.png", nombre: "Rosa<br>Blanca", descripcion: "Munición<br>Máxima" },
+      { archivo: "regalos/Apoyo.png", nombre: "Apoyo", descripcion: "Quitar toda<br>la Munición" },
+      { archivo: "regalos/futbol.png", nombre: "Fútbol", descripcion: "Muerte<br>Instantánea" },
+      { archivo: "regalos/creeper.png", nombre: "Creeper", descripcion: "Kaboom" },
+      { archivo: "regalos/Te Adoro.png", nombre: "Te Adoro", descripcion: "potenciador<br>aleatorio" },
+      { archivo: "regalos/cascara de platano.png", nombre: "cáscara de<br>plátano", descripcion: "Controles<br>Congelados" },
+      { archivo: "regalos/Capibara.png", nombre: "Capibara", descripcion: "subir a<br>Ronda 50" },
+      { archivo: "regalos/Dona.png", nombre: "Dona", descripcion: "Me quita<br>todas las perks" },
+      { archivo: "regalos/exageracion.png", nombre: "Exageración", descripcion: "Ruleta<br>extrema" }
     ];
 
     const contenedor = document.getElementById('contenedor');
     let indiceActual = 0;
-    const tiempoVisibilidad = 6000; // 6 segundos por grupo
+    const tiempoVisibilidad = 6000;
 
     function mostrarSiguienteGrupo() {
-      // 1. Efecto de desvanecimiento
       contenedor.classList.add('oculto');
 
       setTimeout(() => {
-        // 2. Tomar los elementos del lote actual
         let grupo = regalos.slice(indiceActual, indiceActual + 4);
 
-        // Si faltan elementos para llegar a 4 (como pasa al final con el #17)
         if (grupo.length < 4) {
           const faltantes = 4 - grupo.length;
-          // Filtrar regalos que no estén ya en el grupo actual
           const disponibles = regalos.filter(r => !grupo.includes(r));
-          
-          // Mezclar aleatoriamente y seleccionar los que faltan
           const aleatorios = disponibles.sort(() => 0.5 - Math.random()).slice(0, faltantes);
           grupo = [...grupo, ...aleatorios];
         }
 
-        // Renderizar en el DOM
         contenedor.innerHTML = grupo.map(item => `
           <div class="item">
             <span class="titulo">${item.nombre}</span>
-            <img src="${encodeURI(item.archivo)}" alt="${item.nombre}">
+            <img src="${encodeURI(item.archivo)}" alt="Regalo">
             <span class="subtitulo">${item.descripcion}</span>
           </div>
         `).join('');
 
-        // 3. Mostrar el nuevo bloque con animación
         contenedor.classList.remove('oculto');
 
-        // Avanzar 4 posiciones o reiniciar al ciclo inicial
         indiceActual += 4;
         if (indiceActual >= regalos.length) {
           indiceActual = 0;
@@ -171,10 +171,7 @@
       }, 500);
     }
 
-    // Ejecutar al iniciar
     mostrarSiguienteGrupo();
-
-    // Ciclo automático
     setInterval(mostrarSiguienteGrupo, tiempoVisibilidad);
   </script>
 
