@@ -20,43 +20,44 @@
       height: 100vh;
       display: flex;
       align-items: center;
+      justify-content: center;
     }
 
-    .ticker-container {
+    .container {
       width: 100vw;
-      overflow: hidden;
-      white-space: nowrap;
-      background: transparent;
-      padding: 12px 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
     }
 
-    /* Track animado con CSS puro para cero tirones en TikTok LIVE Studio */
-    .ticker-track {
-      display: inline-flex;
-      width: max-content;
-      animation: marquee 35s linear infinite;
-      will-change: transform;
-      backface-visibility: hidden;
-      perspective: 1000px;
+    /* Grid fijo para mostrar exactamente 4 elementos alineados */
+    .grid-4 {
+      display: flex;
+      gap: 60px;
+      justify-content: center;
+      align-items: center;
+      transition: opacity 0.5s ease-in-out, transform 0.5s ease-in-out;
+      opacity: 1;
+      transform: scale(1);
     }
 
-    .block {
-      display: inline-flex;
-      gap: 65px;
-      padding-right: 65px; /* Mismo espacio para evitar tirones al reiniciar el bucle */
+    /* Clase para la animación de desvanecimiento al cambiar */
+    .grid-4.oculto {
+      opacity: 0;
+      transform: scale(0.95);
     }
 
     .item {
-      display: inline-flex;
+      display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      flex-shrink: 0;
+      width: 160px;
     }
 
-    /* Nombre del regalo (ARRIBA) */
+    /* Título (Nombre del regalo) - Arriba */
     .item .titulo {
-      margin-bottom: 6px;
+      margin-bottom: 8px;
       color: #ffffff;
       font-weight: 900;
       font-size: 16px;
@@ -69,19 +70,20 @@
        -1px 1px 0 #000,
         0px 4px 8px rgba(0, 0, 0, 0.95);
       text-align: center;
+      white-space: nowrap;
     }
 
-    /* Icono PNG (CENTRO) */
+    /* Icono PNG - Centro */
     .item img {
-      width: 110px;
-      height: 110px;
+      width: 120px;
+      height: 120px;
       object-fit: contain;
-      filter: drop-shadow(0px 6px 12px rgba(0, 0, 0, 0.85));
+      filter: drop-shadow(0px 8px 14px rgba(0, 0, 0, 0.85));
     }
 
-    /* Descripción/Efecto (ABAJO - Amarillo Grande) */
+    /* Subtítulo (Descripción/Acción) - Abajo en amarillo */
     .item .subtitulo {
-      margin-top: 6px;
+      margin-top: 8px;
       color: #ffea00;
       font-weight: 900;
       font-size: 16px;
@@ -94,26 +96,14 @@
        -2px 2px 0 #000,
         0px 4px 8px rgba(0, 0, 0, 0.95);
       text-align: center;
-    }
-
-    /* Animación de desplazamiento infinito exacto sin saltos */
-    @keyframes marquee {
-      0% {
-        transform: translate3d(0, 0, 0);
-      }
-      100% {
-        transform: translate3d(-50%, 0, 0);
-      }
+      white-space: nowrap;
     }
   </style>
 </head>
 <body>
 
-  <div class="ticker-container">
-    <div class="ticker-track" id="track">
-      <div class="block" id="block1"></div>
-      <div class="block" id="block2"></div>
-    </div>
+  <div class="container">
+    <div class="grid-4" id="contenedor"></div>
   </div>
 
   <script>
@@ -138,23 +128,43 @@
       { archivo: "regalos/17.png", nombre: "OBJETO 17", descripcion: "Efecto 17" }
     ];
 
-    const block1 = document.getElementById('block1');
-    const block2 = document.getElementById('block2');
+    const contenedor = document.getElementById('contenedor');
+    let indiceActual = 0;
+    const tiempoVisibilidad = 6000; // 6000 ms = 6 segundos cada grupo de 4
 
-    function crearHTML(lista) {
-      return lista.map(item => `
-        <div class="item">
-          <span class="titulo">${item.nombre}</span>
-          <img src="${encodeURI(item.archivo)}" alt="${item.nombre}">
-          <span class="subtitulo">${item.descripcion}</span>
-        </div>
-      `).join('');
+    function mostrarSiguienteGrupo() {
+      // 1. Ocultar con animación fade-out
+      contenedor.classList.add('oculto');
+
+      setTimeout(() => {
+        // 2. Extraer los siguientes 4 objetos (o el remanente si no llega a 4)
+        let grupo = regalos.slice(indiceActual, indiceActual + 4);
+
+        // Renderizar el HTML
+        contenedor.innerHTML = grupo.map(item => `
+          <div class="item">
+            <span class="titulo">${item.nombre}</span>
+            <img src="${encodeURI(item.archivo)}" alt="${item.nombre}">
+            <span class="subtitulo">${item.descripcion}</span>
+          </div>
+        `).join('');
+
+        // 3. Mostrar con animación fade-in
+        contenedor.classList.remove('oculto');
+
+        // Avanzar el índice en 4 posiciones. Si llega al final, reinicia a 0
+        indiceActual += 4;
+        if (indiceActual >= regalos.length) {
+          indiceActual = 0;
+        }
+      }, 500); // 500ms coincide con el tiempo del CSS
     }
 
-    // Inyectamos el HTML en los dos bloques
-    const htmlContenido = crearHTML(regalos);
-    block1.innerHTML = htmlContenido;
-    block2.innerHTML = htmlContenido;
+    // Iniciar mostrando el primer grupo al cargar
+    mostrarSiguienteGrupo();
+
+    // Rotar automáticamente cada X segundos
+    setInterval(mostrarSiguienteGrupo, tiempoVisibilidad);
   </script>
 
 </body>
